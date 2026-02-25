@@ -797,14 +797,15 @@ function drawStartScreen() {
 
   ctx.font = '18px sans-serif';
   ctx.fillStyle = '#333';
-  ctx.fillText('Arrow Keys / WASD to move  •  Up / W / Space to jump', CANVAS_W / 2, 330);
+  ctx.fillText('Arrow Keys / WASD to move  •  Up / W / Space to jump', CANVAS_W / 2, 320);
+  ctx.fillText('On mobile: use on-screen buttons below', CANVAS_W / 2, 350);
 
-  // Blink effect for Enter prompt
+  // Blink effect for Enter / tap prompt
   const blink = Math.floor(Date.now() / 500) % 2 === 0;
   if (blink) {
     ctx.font = 'bold 28px sans-serif';
     ctx.fillStyle = '#cc2200';
-    ctx.fillText('Press ENTER to start', CANVAS_W / 2, 400);
+    ctx.fillText('Press ENTER or tap to start', CANVAS_W / 2, 410);
   }
 
   ctx.restore();
@@ -842,6 +843,39 @@ function loop() {
   render();
   requestAnimationFrame(loop);
 }
+
+// ──────────────────────────────────────────────────────────────
+// 13. TOUCH / POINTER CONTROLS
+// ──────────────────────────────────────────────────────────────
+function setupTouchControls() {
+  function press(code)   { keys[code] = true;  }
+  function release(code) { keys[code] = false; }
+
+  const btnLeft  = document.getElementById('btn-left');
+  const btnRight = document.getElementById('btn-right');
+  const btnJump  = document.getElementById('btn-jump');
+
+  [
+    [btnLeft,  'ArrowLeft'],
+    [btnRight, 'ArrowRight'],
+    [btnJump,  'Space'],
+  ].forEach(([btn, code]) => {
+    btn.addEventListener('pointerdown',  (e) => { e.preventDefault(); press(code);   });
+    btn.addEventListener('pointerup',    (e) => { e.preventDefault(); release(code); });
+    btn.addEventListener('pointerleave', ()  => { release(code); });
+    btn.addEventListener('pointercancel',()  => { release(code); });
+  });
+
+  // Tap canvas to advance overlay screens
+  canvas.addEventListener('click', () => {
+    if (screen === 'start')              startGame();
+    else if (screen === 'gameOver')      startGame();
+    else if (screen === 'win')           startGame();
+    else if (screen === 'levelComplete') loadLevel(currentLevel);
+  });
+}
+
+setupTouchControls();
 
 // Bootstrap – show start screen immediately
 requestAnimationFrame(loop);

@@ -20,9 +20,53 @@ body {
   border: 3px solid #4a90d9;
   border-radius: 4px;
   box-shadow: 0 0 40px rgba(74, 144, 217, 0.5);
+  width: min(100%, 800px);
 }
 
 #gameCanvas {
   display: block;
   background: #87ceeb;
+  width: 100%;
+  aspect-ratio: 800 / 500;
+}
+
+/* ── Touch Controls ── */
+#touch-controls {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+#dpad {
+  display: flex;
+  gap: 10px;
+}
+
+.ctrl-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 22px;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctrl-btn:active {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+@media (pointer: coarse) {
+  #touch-controls {
+    display: flex;
+  }
 }
