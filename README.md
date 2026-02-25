@@ -1,2 +1,2 @@
 # Super-Tourist
-Mario type video game. Ennemies : other tourists. Collect pizzas and ice-creams
+Mario type video game. Enemies: other tourists. Collect pizzas and ice-creams.
